@@ -40,4 +40,26 @@ var assert = require('assert'),
     assert.equal(parse.parseLine('Branck`s warder scores a critical hit! (70)'), null);
 })();
 
+(function dotDone() {
+    var dmg = parse.parseLine('[Tue Feb 25 21:05:58 2014] Master Putremancer Fellid has taken 900 damage from your Bite of the Asp.');
+    assert(dmg, 'failed to parse line');
+    assert.equal(dmg.time.getTime(), 
+        new Date('Tue Feb 25 21:05:58 2014').getTime(), 
+        'unexpected time: ' + dmg.time.getTime());
+    assert.equal(dmg.damage, 900, 'unexpected damage: ' + dmg.damage);
+    assert.equal(dmg.doer, 'You', 'unexpected doer: ' + dmg.doer);
+    assert.equal(dmg.taker, 'Master Putremancer Fellid', 'unexpected taker: ' + dmg.taker);
+})();
+
+(function dotTaken() {
+    var dmg = parse.parseLine('[Tue Feb 25 21:06:05 2014] You have taken 213 damage from Withering Destruction by Master Putremancer Fellid\'s corpse');
+    assert(dmg, 'failed to parse line');
+    assert.equal(dmg.time.getTime(), 
+        new Date('Tue Feb 25 21:06:05 2014').getTime(), 
+        'unexpected time: ' + dmg.time.getTime());
+    assert.equal(dmg.damage, 213, 'unexpected damage: ' + dmg.damage);
+    assert.equal(dmg.doer, 'Master Putremancer Fellid\'s corpse', 'unexpected doer: ' + dmg.doer);
+    assert.equal(dmg.taker, 'You', 'unexpected taker: ' + dmg.taker);
+})();
+
 console.log('ok');
