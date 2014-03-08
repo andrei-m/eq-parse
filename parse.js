@@ -7,14 +7,14 @@ function Damage(time, damage, doer, taker) {
 }
 
 var directHit = {
-    "regex": /^\[(.*)\] (.*) (?:hit|slash|bash|crush|pierce|kick|bite|maul|backstab|claw|strike)(?:s|es)? (.*) for (\d+) points of(?: non-melee)? damage.$/,
+    "regex": /^\[(.*)\] (.*) (?:hit|slash|bash|crush|pierce|kick|bite|maul|backstab|claw|strike)(?:s|es)? (.*) for (\d+) points of(?: non-melee)? damage.*/,
     "toDamage": function(split) {
         return new Damage(new Date(split[1]), parseInt(split[4]), split[2], split[3]);
     }
 };
 
 var indirect = {
-    "regex": /^\[(.*)\] (.*) ha(?:ve|s) taken (\d+) damage from (?:your.*|.* by (.*)).*$/,
+    "regex": /^\[(.*)\] (.*) ha(?:ve|s) taken (\d+) damage from (?:your.*|.* by (.*)).*/,
     "toDamage": function(split) {
         // a falsy split[4] means the character is the damager doer
         var doer = !split[4] ? "You" : split[4];
